@@ -13,6 +13,7 @@ RUN apt-get install -y \
     curl \
     dialog \
     git \
+		fortune-mod \
     htop \
     locales-all \
     net-tools \
