@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# -v "${HOME}":/home/user/ \
+
 docker run \
 --cap-add=SYS_ADMIN \
 --device /dev/snd \
@@ -10,12 +12,10 @@ docker run \
 -v /dev/log:/dev/log \
 -v /etc/localtime:/etc/localtime \
 -v "${HOME}":/mnt/ \
--v "${HOME}":/home/user/ \
 -v "${HOME}"/.ssh:/home/user/.ssh/ \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
--v "${HOME}"/.zsh_history:/home/user/.zsh_history \
--h rocky1 \
+-h ubuntuc \
 --net host \
---name rocky1 \
+--name ubuntuc \
 --rm -ti \
-vrdel-ansible-rocky1 /bin/zsh
+vrdel-ansible-ubuntuc /bin/zsh

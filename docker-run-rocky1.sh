@@ -10,12 +10,10 @@ docker run \
 -v /dev/log:/dev/log \
 -v /etc/localtime:/etc/localtime \
 -v "${HOME}":/mnt/ \
--v "${HOME}":/home/user/ \
 -v "${HOME}"/.ssh:/home/user/.ssh/ \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
--v "${HOME}"/.zsh_history:/home/user/.zsh_history \
--h ubuntu-c \
+-h rocky1 \
 --net host \
---name ubuntu-c \
+--name rocky1 \
 --rm -ti \
-vrdel-ansible-ubuntu-c /bin/zsh
+vrdel-ansible-rocky1 /bin/zsh

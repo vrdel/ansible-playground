@@ -3,10 +3,16 @@ services:
     env_file:
       - compose.env
     image: $IMAGEC
-    command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
-    container_name: ubuntu-c
-    hostname: ubuntu-c
+    command: sudo /usr/bin/supervisord -nc /etc/supervisor/supervisord.conf
+    entrypoint: /sbin/init
+    container_name: ubuntuc
+    privileged: true
+    hostname: ubuntuc
+    cgroup: host
     tty: true
+    tmpfs:
+      - /run
+      - /tmp
     stdin_open: true
     user: root
     volumes:
@@ -17,14 +23,20 @@ services:
     networks:
       vrdel-ansible-play:
         ipv4_address: 172.21.0.12
+
   rocky1:
     env_file:
       - compose.env
     image: $IMAGES1
     command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
+    entrypoint: /sbin/init
     container_name: rocky1
     hostname: rocky1
+    cgroup: host
     tty: true
+    tmpfs:
+      - /run
+      - /tmp
     stdin_open: true
     user: root
     volumes:
