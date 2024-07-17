@@ -36,4 +36,5 @@ RUN echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 USER user
 WORKDIR /home/user
 RUN curl -sfL https://git.io/chezmoi | sh
+COPY chezmoi-config-apply.sh /home/user
 CMD ["/bin/zsh"]
