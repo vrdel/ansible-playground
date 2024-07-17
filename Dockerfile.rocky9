@@ -38,4 +38,6 @@ USER user
 WORKDIR /home/user
 RUN curl -sfL https://git.io/chezmoi | sh
 COPY chezmoi-config-apply.sh /home/user
+COPY id_rsa_ubuntuc.pub /home/user/.ssh/authorized_keys
+RUN sudo chmod 700 /home/user/.ssh && sudo chown -R user:user /home/user/.ssh
 CMD ["/bin/zsh"]
