@@ -1,0 +1,9 @@
+[servers]
+rocky1
+debian1
+
+[debs]
+debian1
+
+[rpms]
+rocky1
