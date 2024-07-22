@@ -1,0 +1,3 @@
+---
+- ansible.builtin.import_playbook: rpm-playbook.yml
+- ansible.builtin.import_playbook: deb-playbook.yml
