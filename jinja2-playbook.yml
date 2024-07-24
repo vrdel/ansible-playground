@@ -7,11 +7,12 @@
         value: developer
       - key: language
         value: java
-    hosts_content: "{{ lookup('file', '/etc/hosts') }}"
+    hosts_content: "{{ lookup('file', '/etc/hosts').splitlines() }}"
   tasks:
     - name: Filter the tags variable through items2dict
       ansible.builtin.debug:
         msg: '{{ tags | items2dict }}'
     - name: Load values from file
       ansible.builtin.debug:
-        msg: 'file content {{ hosts_content }}'
+        msg: '{{ item }}'
+      loop: '{{ hosts_content | list }}'
