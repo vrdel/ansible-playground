@@ -1,0 +1,4 @@
+venv_directory: /opt/myenv
+venv_owner: user
+venv_group: user
+py_version: python3.9

@@ -1,0 +1,7 @@
+---
+- name: Spawn Python virtenv using a role
+  hosts: rocky1
+  become: true
+
+  roles:
+    - python_venv

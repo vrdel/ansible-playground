@@ -1,0 +1,30 @@
+---
+- name: Ensure Python 3.9 is installed
+  ansible.builtin.yum:
+    name: python39
+    state: present
+
+- name: Create directory for virtual environment
+  ansible.builtin.file:
+    path: /opt/myenv
+    state: directory
+    owner: "{{ venv_owner }}"
+    group: "{{ venv_group }}"
+    mode: '0755'
+
+- name: Create the virtual environment
+  ansible.builtin.command:
+    cmd: python3.9 -m venv /opt/myenv
+  args:
+    creates: /opt/myenv/bin/activate
+
+- name: Ensure the virtual environment is created
+  ansible.builtin.debug:
+    msg: "Python virtual environment has been successfully created."
+
+- name: Activate the virtual environment and display Python version
+  ansible.builtin.shell: |
+    source /opt/myenv/bin/activate
+    python --version
+  args:
+    executable: /bin/bash
