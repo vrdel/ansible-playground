@@ -12,19 +12,19 @@
     group: "{{ venv_group }}"
     mode: '0755'
 
-- name: Create the virtual environment
+- name: Create the virtual environment if it doesn't exist
   ansible.builtin.command:
-    cmd: python3.9 -m venv /opt/myenv
+    cmd: python3.9 -m venv "{{ venv_directory }}"
   args:
-    creates: /opt/myenv/bin/activate
+    creates: "{{ venv_directory }}/bin/activate"
 
-- name: Ensure the virtual environment is created
+- name: Ensure the virtual environment exist
   ansible.builtin.debug:
     msg: "Python virtual environment has been successfully created."
 
 - name: Activate the virtual environment and display Python version
   ansible.builtin.shell: |
-    source /opt/myenv/bin/activate
+    source "{{ venv_directory }}/bin/activate"
     python --version
   args:
     executable: /bin/bash
