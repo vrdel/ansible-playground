@@ -11,3 +11,16 @@
     - role: python_venv
       vars:
         venv_directory: /opt/poem/
+
+
+- name: Chezmoi init on debian
+  hosts: debian1
+  become: false
+
+  tasks:
+  - name: Download chezmoi
+    ansible.builtin.shell:
+      cmd: curl -sfL https://git.io/chezmoi | sh
+    args:
+      creates: /home/user/bin/chezmoi
+
