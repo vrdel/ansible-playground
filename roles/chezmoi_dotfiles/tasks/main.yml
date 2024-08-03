@@ -4,3 +4,9 @@
     cmd: curl -sfL https://git.io/chezmoi | sh
   args:
     creates: /home/user/bin/chezmoi
+
+- name: Copy chezmoi-apply-config.sh
+  ansible.builtin.copy:
+    src: chezmoi-config-apply.sh
+    dest: ./chezmoi-config-apply.sh
+    mode: '0755'
