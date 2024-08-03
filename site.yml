@@ -17,10 +17,5 @@
   hosts: debian1
   become: false
 
-  tasks:
-  - name: Download chezmoi
-    ansible.builtin.shell:
-      cmd: curl -sfL https://git.io/chezmoi | sh
-    args:
-      creates: /home/user/bin/chezmoi
-
+  roles:
+    - role: chezmoi_dotfiles

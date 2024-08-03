@@ -1,0 +1,6 @@
+---
+- name: Chezmoi init
+  ansible.builtin.shell:
+    cmd: curl -sfL https://git.io/chezmoi | sh
+  args:
+    creates: /home/user/bin/chezmoi
