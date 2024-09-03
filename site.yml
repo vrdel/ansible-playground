@@ -1,5 +1,5 @@
 ---
-- name: Spawn Python virtenv using a role
+- name: Spawn Python virtenv using a role and prepare for chezmoi sync
   hosts: rocky1
   become: true
 
@@ -11,6 +11,7 @@
     - role: python_venv
       vars:
         venv_directory: /opt/poem/
+    - role: chezmoi_dotfiles
 
 
 - name: Chezmoi init on debian
