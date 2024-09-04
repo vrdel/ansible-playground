@@ -1,0 +1,12 @@
+---
+- name: Play to test for hosts file in directory output
+  hosts: localhost
+  tasks:
+    - name: Gather directory listing from local system
+      ansible.builtin.shell: "cat /etc/hosts"
+      register: shellresult
+
+    - name: Alert if we find a hosts file
+      ansible.builtin.debug:
+        msg: "Found localhost file!"
+      when: '"localhost" in shellresult.stdout'
