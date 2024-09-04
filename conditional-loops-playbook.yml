@@ -10,3 +10,14 @@
       ansible.builtin.debug:
         msg: "Found localhost file!"
       when: '"localhost" in shellresult.stdout'
+
+    - name: Echo a value from the loop
+      ansible.builtin.command: echo "{{ item }}"
+      loop:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+      when: item|int > 3
