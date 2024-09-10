@@ -42,17 +42,31 @@
   hosts: debian1
   become: yes
   tasks:
-    - name: Loop to create needed groups
+    - name: Loop to create needed groups from flow collection
       ansible.builtin.group:
         name: "{{ item.group}}"
         state: present
       loop: "{{ debian_users }}"
 
-    - name: Loop to create users
+    - name: Loop to create needed groups from regular dictionary collection
+      ansible.builtin.group:
+        name: "{{ item.group}}"
+        state: present
+      loop: "{{ debian_users2 }}"
+
+    - name: Loop to create users from flow collection
       ansible.builtin.user:
         name: "{{ item.name }}"
         state: present
         group: "{{ item.group }}"
         append: false
       loop: "{{ debian_users }}"
+
+    - name: Loop to create users from regular dictionary collection
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        group: "{{ item.group }}"
+        append: false
+      loop: "{{ debian_users2 }}"
 

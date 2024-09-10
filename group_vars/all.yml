@@ -2,3 +2,8 @@
   debian_users:
     - { name: "testuser3", group: "testgroup3" }
     - { name: "testuser4", group: "testgroup4" }
+  debian_users2:
+    - name: "testuser5"
+      group: "testgroup5"
+    - name: "testuser6"
+      group: "testgroup6"
