@@ -11,7 +11,10 @@
         msg: "Found localhost file!"
       when: '"localhost" in shellresult.stdout'
 
-    - name: Echo a value from the loop
+- name: Time for looping
+  hosts: localhost
+  tasks:
+    - name: Basic loop example
       ansible.builtin.command: echo "{{ item }}"
       loop:
         - 1
@@ -21,3 +24,35 @@
         - 5
         - 6
       when: item|int > 3
+
+- name: Loop user create
+  hosts: debian1
+  become: yes
+  tasks:
+    - name: Loop to create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        groups: "users"
+      loop:
+        - "testuser1"
+        - "testuser2"
+
+- name: Loop user create from global var
+  hosts: debian1
+  become: yes
+  tasks:
+    - name: Loop to create needed groups
+      ansible.builtin.group:
+        name: "{{ item.group}}"
+        state: present
+      loop: "{{ debian_users }}"
+
+    - name: Loop to create users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        group: "{{ item.group }}"
+        append: false
+      loop: "{{ debian_users }}"
+
