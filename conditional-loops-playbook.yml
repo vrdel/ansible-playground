@@ -70,3 +70,22 @@
         append: false
       loop: "{{ debian_users2 }}"
 
+- name: Various loop examples deciphered with debug
+  hosts: debian1
+  tasks:
+    - name: Loop echo variables
+      ansible.builtin.debug:
+        var: item
+      loop:
+        - 1
+        - 2
+        - 3
+
+    - name: Using dict2items
+      ansible.builtin.debug:
+        msg: "{{ item.key }} - {{ item.value }}"
+      loop: "{{ tag_data | dict2items }}"
+      vars:
+        tag_data:
+          Environment: dev
+          Application: payment
