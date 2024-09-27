@@ -90,6 +90,65 @@ services:
       vrdel-ansible-play:
         ipv4_address: 172.21.0.14
 
+  connectors:
+    env_file:
+      - compose.env
+    image: ${IMAGES3}
+    command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
+    entrypoint: /sbin/init
+    container_name: connectors
+    hostname: connectors
+    cgroup: host
+    tty: true
+    tmpfs:
+      - /run
+      - /tmp
+    stdin_open: true
+    user: root
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup
+      - $HOME:/mnt
+      - /dev/log:/dev/log
+      - /etc/localtime:/etc/localtime:ro
+      - type: bind
+        source: ${SSH_AUTH_SOCK}
+        target: ${SSH_AUTH_SOCK}
+    environment:
+      - SSH_AUTH_SOCK
+    networks:
+      vrdel-ansible-play:
+        ipv4_address: 172.21.0.15
+
+  poem:
+    env_file:
+      - compose.env
+    image: ${IMAGES4}
+    command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
+    entrypoint: /sbin/init
+    container_name: poem
+    hostname: poem
+    cgroup: host
+    tty: true
+    tmpfs:
+      - /run
+      - /tmp
+    stdin_open: true
+    user: root
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup
+      - $HOME:/mnt
+      - /dev/log:/dev/log
+      - /etc/localtime:/etc/localtime:ro
+      - type: bind
+        source: ${SSH_AUTH_SOCK}
+        target: ${SSH_AUTH_SOCK}
+    environment:
+      - SSH_AUTH_SOCK
+    networks:
+      vrdel-ansible-play:
+        ipv4_address: 172.21.0.16
+
+
 networks:
   vrdel-ansible-play:
     driver: bridge
