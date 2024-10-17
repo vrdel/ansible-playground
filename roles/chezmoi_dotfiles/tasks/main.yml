@@ -3,10 +3,10 @@
   ansible.builtin.shell:
     cmd: curl -sfL https://git.io/chezmoi | sh
   args:
-    creates: /home/user/bin/chezmoi
+    creates: /home/{{ chezmoi_user }}/bin/chezmoi
 
 - name: Copy chezmoi-apply-config.sh
-  ansible.builtin.copy:
-    src: chezmoi-config-apply.sh
-    dest: ./chezmoi-config-apply.sh
+  ansible.builtin.template:
+    src: chezmoi-config-apply.sh.j2
+    dest: /home/{{ chezmoi_user }}/chezmoi-config-apply.sh
     mode: '0755'
