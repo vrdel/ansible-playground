@@ -2,7 +2,6 @@
 - name: Spawn Python virtenv using a role and prepare for chezmoi sync
   hosts: rocky1
   become: true
-
   roles:
     - role: python_venv
     - role: python_venv
@@ -17,6 +16,5 @@
 - name: Chezmoi init on debian
   hosts: debian1
   become: false
-
   roles:
     - role: chezmoi_dotfiles
