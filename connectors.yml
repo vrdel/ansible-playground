@@ -1,0 +1,13 @@
+---
+- name: Playbook to configure connectors machines
+  hosts: connectors
+  become: true
+  roles:
+    - role: chezmoi_dotfiles
+    - role: python_venv
+      vars:
+        venv_directory: /opt/argo-connectors
+
+
+
+# vim: ft=yaml.ansible
