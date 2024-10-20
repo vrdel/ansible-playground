@@ -13,6 +13,9 @@
 
 - name: Time for looping
   hosts: localhost
+  vars:
+    mylist: [0, 2, 4, 5, 8, 10]
+    mylist2: [10, 22, 44, 55, 88, 101]
   tasks:
     - name: Basic loop example
       ansible.builtin.command: echo "{{ item }}"
@@ -24,6 +27,18 @@
         - 5
         - 6
       when: item|int > 3
+    - name: Run with items greater than 5
+      ansible.builtin.command: echo "{{ item }}"
+      loop: "{{ mylist }}"
+      when: item > 5
+    - name: Run with items greater than 5 - skip undefined list
+      ansible.builtin.command: echo "{{ item }}"
+      loop: "{{ no_mylist|default([]) }}"
+      when: item > 5
+    - name: Run with items greater than 5 - skip undefined dict
+      ansible.builtin.command: echo "{{ item.key }}"
+      loop: "{{ query('dict', mydict|default({})) }}"
+      when: item.value > 5
 
 - name: Loop user create
   hosts: debian1
@@ -89,3 +104,14 @@
         tag_data:
           Environment: dev
           Application: payment
+
+- name: Register variable play
+  hosts: debian1
+  tasks:
+  - name: retrieve list
+    ansible.builtin.command: ls /home
+    register: home_dirs
+
+  - name: debug list
+    ansible.builtin.debug:
+      var: home_dirs
