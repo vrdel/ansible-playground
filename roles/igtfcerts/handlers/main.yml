@@ -1,6 +1,17 @@
 ---
 # handlers file for igtfcerts/
 
+- name: Clear anchors
+  listen: Update CA bundle
+  ansible.builtin.shell:
+    cmd: "rm -rf /etc/pki/ca-trust/source/anchors/*"
+
+- name: Copy IGTF CA's as anchors
+  listen: Update CA bundle
+  ansible.builtin.shell:
+    cmd: "cp /etc/grid-security/certificates/*.pem /etc/pki/ca-trust/source/anchors"
+
 - name: Update CA bundle
+  listen: Update CA bundle
   ansible.builtin.command:
-    echo "I need to update CA bundle"
+    cmd: update-ca-trust
