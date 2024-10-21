@@ -1,5 +1,5 @@
 ---
-# tasks file for igtfcerts/
+# tasks file for igtfcerts_cabundle/
 
 - name: Import EGI GPG key
   ansible.builtin.rpm_key:
