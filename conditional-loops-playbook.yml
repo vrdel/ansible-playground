@@ -115,3 +115,9 @@
   - name: debug list
     ansible.builtin.debug:
       var: home_dirs
+
+- name: Import and include task
+  hosts: debian1
+  tasks:
+    - import_tasks: imported_tasks.yml
+      when: x is not defined

@@ -1,0 +1,9 @@
+- name: Set variable x
+  ansible.builtin.set_fact:
+    x: foo
+
+- name: Print variable
+  ansible.builtin.debug:
+    var: x
+
+# vim: ft=yaml.ansible
