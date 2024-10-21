@@ -1,5 +1,5 @@
 ---
-# handlers file for igtfcerts/
+# handlers file for igtfcerts_cabundle/
 
 - name: Clear anchors
   listen: Update CA bundle
