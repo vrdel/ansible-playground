@@ -1,2 +1,6 @@
 ---
 # handlers file for igtfcerts/
+
+- name: Update CA bundle
+  ansible.builtin.command:
+    echo "I need to update CA bundle"

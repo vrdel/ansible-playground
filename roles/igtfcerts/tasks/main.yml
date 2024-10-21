@@ -20,3 +20,4 @@
   ansible.builtin.dnf:
     name: ca-policy-egi-core
     state: present
+  notify: Update CA bundle
