@@ -1,0 +1,8 @@
+---
+# tasks file for poetry_tool
+
+- name: pip install poetry
+  ansible.builtin.pip:
+    virtualenv: /opt/poetry-tool
+    name: poetry
+    state: latest
