@@ -7,8 +7,29 @@
     - role: python_venv
       vars:
         venv_directory: /opt/argo-connectors
+    - role: python_venv
+      vars:
+        venv_directory: /opt/poetry-tool
     - role: igtfcerts_cabundle
 
+
+- name: Install poetry tool
+  hosts: connectors
+  become: true
+  tasks:
+    - name: pip install poetry
+      ansible.builtin.pip:
+        virtualenv: /opt/poetry-tool
+        name: poetry
+
+- name: Install argo-connectors
+  hosts: connectors
+  become: true
+  tasks:
+    - name: pip install git+https://argo-connectors
+      ansible.builtin.pip:
+        virtualenv: /opt/argo-connectors
+        name: git+https://github.com/ARGOeu/argo-connectors@devel#egg=argo-connectors
 
 
 # vim: ft=yaml.ansible
