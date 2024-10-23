@@ -3,6 +3,6 @@
 
 - name: pip install poetry
   ansible.builtin.pip:
-    virtualenv: /opt/poetry-tool
+    virtualenv: "{{ virtenv_path }}"
     name: poetry
     state: latest

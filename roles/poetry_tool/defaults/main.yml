@@ -1,4 +1,3 @@
 ---
 # defaults file for poetry_tool
-
   virtenv_path: /opt/poetry-tool
