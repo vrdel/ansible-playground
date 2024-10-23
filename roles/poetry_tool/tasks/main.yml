@@ -6,3 +6,9 @@
     virtualenv: "{{ virtenv_path }}"
     name: poetry
     state: latest
+
+- name: symlink poetry
+  ansible.builtin.file:
+    src: "{{ virtenv_path }}/bin/poetry"
+    dest: /usr/local/bin/poetry
+    state: link
