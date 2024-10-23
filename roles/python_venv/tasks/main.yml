@@ -4,11 +4,13 @@
     name: "{{ py_pkg }}"
     state: present
 
+
 - name: Create the virtual environment if it doesn't exist
   ansible.builtin.command:
     cmd: "{{ py_cmd }} -m venv {{ venv_directory }}"
   args:
     creates: "{{ venv_directory }}/bin/activate"
+
 
 - name: Ensure perms for virtual environment directory
   ansible.builtin.file:
@@ -19,9 +21,18 @@
     recurse: yes
     mode: '0755'
 
+
 - name: Ensure the virtual environment exist
   ansible.builtin.debug:
     msg: "Python virtual environment has been successfully created."
+
+
+- name: Ensure latest pip
+  ansible.builtin.pip:
+    name: pip
+    virtualenv: "{{ venv_directory }}"
+    state: latest
+
 
 - name: Activate the virtual environment and display Python version
   ansible.builtin.shell: |
@@ -29,3 +40,5 @@
     python --version
   args:
     executable: /bin/bash
+
+
