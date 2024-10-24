@@ -11,13 +11,37 @@
         venv_directory: /opt/argo-connectors
 
 
+- name: Install essential RPMs
+  hosts: connectors
+  become: true
+  tasks:
+    - name: GCC, git, python3-devel, epel-release, rocky-repos, openldap-devel
+      ansible.builtin.dnf:
+        name:
+          - gcc
+          - git
+          - python3-devel
+          - epel-release
+          - rocky-repos
+          - openldap-devel
+        state: present
+
+
 - name: Install argo-connectors
   hosts: connectors
   become: true
   tasks:
-    - name: pip install git+https://argo-connectors
+    - name: Wheel install - pip install git+https://argo-connectors
       ansible.builtin.pip:
         virtualenv: /opt/argo-connectors
         name: git+https://github.com/ARGOeu/argo-connectors@devel#egg=argo-connectors
+    - name: Dependencies install - poetry update
+      ansible.builtin.shell:
+        cmd: |
+          source /opt/argo-connectors/bin/activate
+          /usr/local/bin/poetry update
+        chdir: /opt/argo-connectors
+
+
 
 # vim: ft=yaml.ansible
