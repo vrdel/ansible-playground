@@ -22,23 +22,8 @@
     mode: '0755'
 
 
-- name: Ensure the virtual environment exist
-  ansible.builtin.debug:
-    msg: "Python virtual environment has been successfully created."
-
-
 - name: Ensure latest pip
   ansible.builtin.pip:
     name: pip
     virtualenv: "{{ venv_directory }}"
     state: latest
-
-
-- name: Activate the virtual environment and display Python version
-  ansible.builtin.shell: |
-    source "{{ venv_directory }}/bin/activate"
-    python --version
-  args:
-    executable: /bin/bash
-
-
