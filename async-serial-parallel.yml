@@ -19,3 +19,25 @@
     - name: Print dates
       ansible.builtin.debug:
         msg: "{{ task1.stdout_lines, task2.stdout_lines, task3.stdout_lines }}"
+
+
+- name: One at a time
+  hosts: all
+  become: false
+  serial: 1
+  tasks:
+    - name: First task
+      ansible.builtin.shell: 'echo -n "first task: "; sleep 1; date'
+      register: task1
+
+    - name: Second task
+      ansible.builtin.shell: 'echo -n "second task: "; sleep 2; date'
+      register: task2
+
+    - name: Third task
+      ansible.builtin.shell: 'echo -n "third task: "; sleep 3; date'
+      register: task3
+
+    - name: Print dates
+      ansible.builtin.debug:
+        msg: "{{ task1.stdout_lines, task2.stdout_lines, task3.stdout_lines }}"
