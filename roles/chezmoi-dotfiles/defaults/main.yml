@@ -1,0 +1,4 @@
+---
+  chezmoi_user: user
+  github_repo: vrdel/dotfiles
+  local_clone: "{{ playbook_dir }}/dotfiles/chezmoi.tar.gz"

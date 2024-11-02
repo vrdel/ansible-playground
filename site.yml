@@ -3,18 +3,18 @@
   hosts: rocky1
   become: true
   roles:
-    - role: python_venv
-    - role: python_venv
+    - role: python-venv
+    - role: python-venv
       vars:
         venv_directory: /opt/argo-connectors/
-    - role: python_venv
+    - role: python-venv
       vars:
         venv_directory: /opt/poem/
-    - role: chezmoi_dotfiles
+    - role: chezmoi-dotfiles
 
 
 - name: Chezmoi init on debian
   hosts: debian1
   become: false
   roles:
-    - role: chezmoi_dotfiles
+    - role: chezmoi-dotfiles

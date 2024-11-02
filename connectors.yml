@@ -3,12 +3,10 @@
   hosts: connectors
   become: true
   roles:
-    - role: chezmoi_dotfiles
-    - role: igtfcerts_cabundle
-    - role: poetry_tool
-    - role: python_venv
-      vars:
-        venv_directory: /opt/argo-connectors
+    - role: chezmoi-dotfiles
+    - role: igtfcerts-cabundle
+    - role: poetry-tool
+    - { role: python-venv, venv_directory: /opt/argo-connectors }
 
 
 - name: Install essential RPMs

@@ -1,0 +1,44 @@
+---
+- name: Chezmoi init
+  ansible.builtin.shell:
+    cmd: curl -sfL https://git.io/chezmoi | sh
+  args:
+    creates: /home/{{ chezmoi_user }}/bin/chezmoi
+
+- name: Copy chezmoi-apply-config.sh
+  ansible.builtin.template:
+    src: chezmoi-config-apply.sh.j2
+    dest: /home/{{ chezmoi_user }}/chezmoi-config-apply.sh
+    mode: '0755'
+
+- name: Local chezmoi tarball exists
+  ansible.builtin.stat:
+    path: "{{ local_clone }}"
+  delegate_to: localhost
+  register: local_clone
+
+- name: Upload to remote machine
+  ansible.builtin.copy:
+    # bug here
+    # src: "{{ local_clone }}"
+    src: "{{ playbook_dir }}/dotfiles/chezmoi.tar.gz"
+    dest: "/home/{{ chezmoi_user }}/chezmoi.tar.gz"
+  when: local_clone.stat.exists is true
+
+- name: Extract tarball
+  ansible.builtin.unarchive:
+    src: "/home/{{ chezmoi_user }}/chezmoi.tar.gz"
+    dest: "/home/{{ chezmoi_user }}"
+    remote_src: yes
+  when: local_clone.stat.exists is true
+
+- name: chezmoi apply
+  ansible.builtin.command:
+    cmd: "/home/{{ chezmoi_user }}/bin/chezmoi apply --force"
+  when: local_clone.stat.exists is true
+  register: chezmoi_apply
+
+- name: Clean chezmoi cache
+  ansible.builtin.command:
+    cmd: "rm -rf .local/share/chezmoi && rm -rf /home/{{ chezmoi_user }}/chezmoi.tar.gz"
+  when: chezmoi_apply.failed is false
