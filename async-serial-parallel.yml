@@ -68,3 +68,46 @@
     - name: Print dates
       ansible.builtin.debug:
         msg: "{{ task1.stdout_lines, task2.stdout_lines, task3.stdout_lines }}"
+
+
+- name: Async - manual poll
+  hosts: all
+  become: false
+  vars:
+    jobids: []
+  tasks:
+    - name: First task
+      ansible.builtin.shell: 'echo -n "first task: "; sleep 1; date'
+      async: 30
+      poll: 0
+      register: task1
+
+    - name: Second task
+      ansible.builtin.shell: 'echo -n "second task: "; sleep 2; date'
+      async: 30
+      poll: 0
+      register: task2
+
+    - name: Third task
+      ansible.builtin.shell: 'echo -n "third task: "; sleep 3; date'
+      async: 30
+      poll: 0
+      register: task3
+
+    - name: Extract async job ids
+      ansible.builtin.set_fact:
+        jobids: |
+          {% if item.ansible_job_id is defined -%}
+            {{ jobids + [item.ansible_job_id] }}
+          {% else -%}
+            {{ jobids }}
+          {% endif %}
+      loop: "{{ [task1, task2, task3] }}"
+
+    - name: Wait for job ids
+      async_status:
+        jid: "{{ item }}"
+      loop: "{{ jobids }}"
+      register: jobs_result
+      until: jobs_result.finished
+      retries: 30
