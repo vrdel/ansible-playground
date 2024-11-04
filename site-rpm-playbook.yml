@@ -1,7 +1,11 @@
 ---
+
 - name: Configure RPM distros
   hosts: rpms
+  vars_files:
+    - secret.yml
   become: yes
+
   tasks:
     - name: Install Apache2
       ansible.builtin.dnf:
@@ -9,3 +13,7 @@
           - httpd
           - mod_ssl
         state: latest
+
+    - name: Print secret
+      ansible.builtin.debug:
+        msg: "{{ foobar }}"
