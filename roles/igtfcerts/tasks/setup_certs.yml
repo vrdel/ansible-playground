@@ -1,23 +1,24 @@
 ---
-# tasks file for igtfcerts_cabundle/
 
 - name: Import EGI GPG key
   ansible.builtin.rpm_key:
     state: present
-    key: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
+    key: "{{ repo_key }}"
+
 
 - name: Add EGI trustanchors cert repository file
   ansible.builtin.yum_repository:
     name: EGI-trustanchors
     description: Repository with IGTF CA certificates
     file: egi-trustanchors
-    baseurl: http://repository.egi.eu/sw/production/cas/1/current/
-    gpgcakey: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
+    baseurl: "{{ baseurl }}"
+    gpgcakey: "{{ repo_key }}"
     gpgcheck: true
     enabled: true
 
+
 - name: Install ca-policy-egi-core RPM
   ansible.builtin.dnf:
-    name: ca-policy-egi-core
+    name: "{{ pkg_name }}"
     state: present
   notify: Update CA bundle

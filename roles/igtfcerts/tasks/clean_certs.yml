@@ -1,0 +1,8 @@
+---
+
+- name: Remove ca-policy-egi-core RPM
+  ansible.builtin.dnf:
+    name: "{{ pkg_name }}"
+    state: absent
+    autoremove: true
+  notify: Update CA bundle

@@ -1,0 +1,6 @@
+---
+
+repo_key: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
+baseurl: http://repository.egi.eu/sw/production/cas/1/current/
+pkg_name: ca-policy-egi-core
+clean: false

@@ -1,0 +1,10 @@
+---
+
+- name: Setup IGTF certificates
+  include_tasks: ./setup_certs.yml
+  when: not clean
+
+
+- name: Clean IGTF certificates
+  include_tasks: ./clean_certs.yml
+  when: clean
