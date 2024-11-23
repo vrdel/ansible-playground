@@ -1,0 +1,14 @@
+---
+
+- name: Ensure clean anchors - delete everything under
+  listen: Update CA bundle
+  ansible.builtin.file:
+    path: "{{ anchor_path }}"
+    state: absent
+
+- name: Ensure clean anchors - recreate empty anchors/ directory
+  listen: Update CA bundle
+  ansible.builtin.file:
+    path: "{{ anchor_path }}"
+    state: directory
+

@@ -3,4 +3,9 @@
 repo_key: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
 baseurl: http://repository.egi.eu/sw/production/cas/1/current/
 pkg_name: ca-policy-egi-core
+anchor_path: /etc/pki/ca-trust/source/anchors/
+backup_appendix: ".saved-igtfcerts-role"
+target_cabundles:
+  - /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+  - /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 clean: false

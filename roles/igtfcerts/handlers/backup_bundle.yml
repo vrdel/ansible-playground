@@ -1,0 +1,16 @@
+---
+
+- name: Check if "{{ item }}{{ backup_appendix }}" exists
+  listen: Update CA bundle
+  ansible.builtin.stat:
+    path: "{{ item }}{{ backup_appendix }}"
+  register:
+    saved_stat
+
+- name: Save original CA bundle - {{ item }}
+  listen: Update CA bundle
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ item }}{{ backup_appendix }}"
+    remote_src: yes
+  when: not saved_stat.stat.exists

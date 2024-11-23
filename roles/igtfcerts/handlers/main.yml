@@ -2,47 +2,14 @@
 
 # add handlers
 
-- name: Check if /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role exists
+- name: Backup CA bundle
   listen: Update CA bundle
-  ansible.builtin.stat:
-    path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcers-role
-  register:
-    saved_stat
+  include_tasks: ./backup_bundle.yml
+  loop: "{{ target_cabundles }}"
 
-- name: Save original CA bundle - tls-ca-bundle.pem
+- name: Clean anchors/
   listen: Update CA bundle
-  ansible.builtin.copy:
-    src: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
-    dest: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
-    remote_src: yes
-  when: not saved_stat.stat.exists
-
-- name: Check if /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role exists
-  listen: Update CA bundle
-  ansible.builtin.stat:
-    path: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
-  register:
-    saved_stat2
-
-- name: Save original CA bundle - ca-bundle.trust.crt
-  listen: Update CA bundle
-  ansible.builtin.copy:
-    src: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
-    dest: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
-    remote_src: yes
-  when: not saved_stat2.stat.exists
-
-- name: Ensure clean anchors - delete everything under
-  listen: Update CA bundle
-  ansible.builtin.file:
-    path: /etc/pki/ca-trust/source/anchors/
-    state: absent
-
-- name: Ensure clean anchors - recreate empty anchors/ directory
-  listen: Update CA bundle
-  ansible.builtin.file:
-    path: /etc/pki/ca-trust/source/anchors/
-    state: directory
+  include_tasks: ./clean_anchors.yml
 
 - name: "List all target IGTF target *.pem files"
   listen: Update CA bundle
@@ -55,7 +22,7 @@
   listen: Update CA bundle
   ansible.builtin.copy:
     src: "{{ item.path }}"
-    dest: /etc/pki/ca-trust/source/anchors/
+    dest: "{{ anchor_path }}"
     remote_src: yes
   loop: "{{ target_pems.files }}"
   loop_control:
@@ -69,17 +36,9 @@
 
 # clean handlers
 
-- name: Ensure clean anchors - delete everything under
+- name: Clean anchors/
   listen: Reset CA bundle
-  ansible.builtin.file:
-    path: /etc/pki/ca-trust/source/anchors/
-    state: absent
-
-- name: Ensure clean anchors - recreate empty anchors/ directory
-  listen: Reset CA bundle
-  ansible.builtin.file:
-    path: /etc/pki/ca-trust/source/anchors/
-    state: directory
+  include_tasks: ./clean_anchors.yml
 
 - name: Revert back original CA bundle - tls-ca-bundle.pem
   listen: Reset CA bundle
