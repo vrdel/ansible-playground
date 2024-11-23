@@ -1,19 +1,36 @@
 ---
 
-- name: Check if /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved exists
+# add handlers
+
+- name: Check if /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role exists
   listen: Update CA bundle
   ansible.builtin.stat:
-    path: /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved
+    path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcers-role
   register:
     saved_stat
 
-- name: Save original CA bundle
+- name: Save original CA bundle - tls-ca-bundle.pem
   listen: Update CA bundle
   ansible.builtin.copy:
-    src: /etc/pki/tls/certs/ca-bundle.crt
-    dest: /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved
+    src: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+    dest: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
     remote_src: yes
   when: not saved_stat.stat.exists
+
+- name: Check if /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role exists
+  listen: Update CA bundle
+  ansible.builtin.stat:
+    path: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
+  register:
+    saved_stat2
+
+- name: Save original CA bundle - ca-bundle.trust.crt
+  listen: Update CA bundle
+  ansible.builtin.copy:
+    src: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+    dest: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
+    remote_src: yes
+  when: not saved_stat2.stat.exists
 
 - name: Ensure clean anchors - delete everything under
   listen: Update CA bundle
@@ -49,13 +66,49 @@
   ansible.builtin.command:
     cmd: update-ca-trust
 
-- name: Clean IGTF CA anchors
-  listen: Reset CA bundle
-  ansible.builtin.command:
-    cmd: "rm -rf /etc/pki/ca-trust/source/anchors/*"
 
-- name: Revert back original CA bundle
+# clean handlers
+
+- name: Ensure clean anchors - delete everything under
   listen: Reset CA bundle
-  ansible.builtin.command:
-    cmd: mv /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved /etc/pki/tls/certs/ca-bundle.crt
+  ansible.builtin.file:
+    path: /etc/pki/ca-trust/source/anchors/
+    state: absent
+
+- name: Ensure clean anchors - recreate empty anchors/ directory
+  listen: Reset CA bundle
+  ansible.builtin.file:
+    path: /etc/pki/ca-trust/source/anchors/
+    state: directory
+
+- name: Revert back original CA bundle - tls-ca-bundle.pem
+  listen: Reset CA bundle
+  ansible.builtin.copy:
+    src: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
+    dest: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+    remote_src: yes
+    force: true
+  ignore_errors: true
+
+- name: Delete /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
+  listen: Reset CA bundle
+  ansible.builtin.file:
+    path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
+    state: absent
+  ignore_errors: true
+
+- name: Revert back original CA bundle - ca-bundle.trust.crt
+  listen: Reset CA bundle
+  ansible.builtin.copy:
+    src: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
+    dest: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+    remote_src: yes
+    force: true
+  ignore_errors: true
+
+- name: Delete /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
+  listen: Reset CA bundle
+  ansible.builtin.file:
+    src: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
+    state: absent
   ignore_errors: true
