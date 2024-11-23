@@ -1,0 +1,23 @@
+---
+
+- name: "List all target IGTF target *.pem files"
+  listen: Update CA bundle
+  ansible.builtin.find:
+    paths: /etc/grid-security/certificates/
+    patterns: '*.pem'
+  register: target_pems
+
+- name: Copy IGTF CA's as anchors
+  listen: Update CA bundle
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "{{ anchor_path }}"
+    remote_src: yes
+  loop: "{{ target_pems.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Update bundle
+  listen: Update CA bundle
+  ansible.builtin.command:
+    cmd: update-ca-trust

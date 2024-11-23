@@ -1,7 +1,6 @@
 ---
 
 # add handlers
-
 - name: Backup CA bundle
   listen: Update CA bundle
   include_tasks: ./backup_bundle.yml
@@ -11,31 +10,12 @@
   listen: Update CA bundle
   include_tasks: ./clean_anchors.yml
 
-- name: "List all target IGTF target *.pem files"
+- name: Update CA bundle
   listen: Update CA bundle
-  ansible.builtin.find:
-    paths: /etc/grid-security/certificates/
-    patterns: '*.pem'
-  register: target_pems
-
-- name: Copy IGTF CA's as anchors
-  listen: Update CA bundle
-  ansible.builtin.copy:
-    src: "{{ item.path }}"
-    dest: "{{ anchor_path }}"
-    remote_src: yes
-  loop: "{{ target_pems.files }}"
-  loop_control:
-    label: "{{ item.path }}"
-
-- name: Update bundle
-  listen: Update CA bundle
-  ansible.builtin.command:
-    cmd: update-ca-trust
+  include_tasks: ./update_bundle.yml
 
 
 # clean handlers
-
 - name: Clean anchors/
   listen: Reset CA bundle
   include_tasks: ./clean_anchors.yml
