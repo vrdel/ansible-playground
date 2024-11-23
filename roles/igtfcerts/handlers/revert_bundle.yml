@@ -1,0 +1,17 @@
+---
+
+- name: Revert back original CA bundle - {{ item }}
+  listen: Reset CA bundle
+  ansible.builtin.copy:
+    src: "{{ item }}{{ backup_appendix }}"
+    dest: "{{ item }}"
+    remote_src: yes
+    force: true
+  ignore_errors: true
+
+- name: Delete {{ item }}{{ backup_appendix }}
+  listen: Reset CA bundle
+  ansible.builtin.file:
+    path: "{{ item }}{{ backup_appendix }}"
+    state: absent
+  ignore_errors: true

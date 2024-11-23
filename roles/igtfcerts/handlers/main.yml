@@ -40,34 +40,8 @@
   listen: Reset CA bundle
   include_tasks: ./clean_anchors.yml
 
-- name: Revert back original CA bundle - tls-ca-bundle.pem
+- name: Revert CA bundle
   listen: Reset CA bundle
-  ansible.builtin.copy:
-    src: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
-    dest: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
-    remote_src: yes
-    force: true
-  ignore_errors: true
+  include_tasks: ./revert_bundle.yml
+  loop: "{{ target_cabundles }}"
 
-- name: Delete /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
-  listen: Reset CA bundle
-  ansible.builtin.file:
-    path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem.saved.igtfcerts-role
-    state: absent
-  ignore_errors: true
-
-- name: Revert back original CA bundle - ca-bundle.trust.crt
-  listen: Reset CA bundle
-  ansible.builtin.copy:
-    src: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
-    dest: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
-    remote_src: yes
-    force: true
-  ignore_errors: true
-
-- name: Delete /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
-  listen: Reset CA bundle
-  ansible.builtin.file:
-    src: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt.saved.igtfcerts-role
-    state: absent
-  ignore_errors: true

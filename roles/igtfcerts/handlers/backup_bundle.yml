@@ -1,6 +1,6 @@
 ---
 
-- name: Check if "{{ item }}{{ backup_appendix }}" exists
+- name: Check if {{ item }}{{ backup_appendix }} exists
   listen: Update CA bundle
   ansible.builtin.stat:
     path: "{{ item }}{{ backup_appendix }}"
