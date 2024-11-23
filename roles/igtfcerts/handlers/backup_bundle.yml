@@ -1,9 +1,9 @@
 ---
 
-- name: Check if {{ item }}{{ backup_appendix }} exists
+- name: Check if {{ item }}{{ igtfcerts_backup_appendix }} exists
   listen: Update CA bundle
   ansible.builtin.stat:
-    path: "{{ item }}{{ backup_appendix }}"
+    path: "{{ item }}{{ igtfcerts_backup_appendix }}"
   register:
     saved_stat
 
@@ -11,6 +11,6 @@
   listen: Update CA bundle
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ item }}{{ backup_appendix }}"
+    dest: "{{ item }}{{ igtfcerts_backup_appendix }}"
     remote_src: yes
   when: not saved_stat.stat.exists

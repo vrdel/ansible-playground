@@ -1,12 +1,13 @@
 ---
 
-repo_key: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
-baseurl: http://repository.egi.eu/sw/production/cas/1/current/
-pkg_name: ca-policy-egi-core
-anchor_path: /etc/pki/ca-trust/source/anchors/
-backup_appendix: ".saved-igtfcerts-role"
-target_cabundles:
+igtfcerts_repo_key: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
+igtfcerts_baseurl: http://repository.egi.eu/sw/production/cas/1/current/
+igtfcerts_path: /etc/grid-security/certificates
+igtfcerts_pkg_name: ca-policy-egi-core
+igtfcerts_anchor_path: /etc/pki/ca-trust/source/anchors/
+igtfcerts_backup_appendix: ".saved-igtfcerts-role"
+igtfcerts_target_cabundles:
   - /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
   - /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 clean: false
-update_cabundle: false
+igtfcerts_update_cabundle: false

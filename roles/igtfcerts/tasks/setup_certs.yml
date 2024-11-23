@@ -3,7 +3,7 @@
 - name: Import EGI GPG key
   ansible.builtin.rpm_key:
     state: present
-    key: "{{ repo_key }}"
+    key: "{{ igtfcerts_repo_key }}"
 
 
 - name: Add EGI trustanchors cert repository file
@@ -11,14 +11,14 @@
     name: EGI-trustanchors
     description: Repository with IGTF CA certificates
     file: egi-trustanchors
-    baseurl: "{{ baseurl }}"
-    gpgcakey: "{{ repo_key }}"
+    baseurl: "{{ igtfcerts_baseurl }}"
+    gpgcakey: "{{ igtfcerts_repo_key }}"
     gpgcheck: true
     enabled: true
 
 
 - name: Install ca-policy-egi-core RPM
   ansible.builtin.dnf:
-    name: "{{ pkg_name }}"
+    name: "{{ igtfcerts_pkg_name }}"
     state: present
   notify: Update CA bundle

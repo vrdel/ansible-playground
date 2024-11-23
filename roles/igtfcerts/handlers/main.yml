@@ -4,7 +4,7 @@
 - name: Backup CA bundle
   listen: Update CA bundle
   include_tasks: ./backup_bundle.yml
-  loop: "{{ target_cabundles }}"
+  loop: "{{ igtfcerts_target_cabundles }}"
   when: update_cabundle
 
 - name: Clean anchors/
@@ -27,6 +27,6 @@
 - name: Revert CA bundle
   listen: Reset CA bundle
   include_tasks: ./revert_bundle.yml
-  loop: "{{ target_cabundles }}"
+  loop: "{{ igtfcerts_target_cabundles }}"
   when: update_cabundle
 
