@@ -5,4 +5,4 @@
     name: "{{ pkg_name }}"
     state: absent
     autoremove: true
-  notify: Update CA bundle
+  notify: Reset CA bundle

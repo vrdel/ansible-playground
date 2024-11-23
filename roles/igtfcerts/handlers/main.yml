@@ -1,16 +1,61 @@
 ---
 
-- name: Clear anchors
+- name: Check if /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved exists
   listen: Update CA bundle
-  ansible.builtin.shell:
-    cmd: "rm -rf /etc/pki/ca-trust/source/anchors/*"
+  ansible.builtin.stat:
+    path: /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved
+  register:
+    saved_stat
+
+- name: Save original CA bundle
+  listen: Update CA bundle
+  ansible.builtin.copy:
+    src: /etc/pki/tls/certs/ca-bundle.crt
+    dest: /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved
+    remote_src: yes
+  when: not saved_stat.stat.exists
+
+- name: Ensure clean anchors - delete everything under
+  listen: Update CA bundle
+  ansible.builtin.file:
+    path: /etc/pki/ca-trust/source/anchors/
+    state: absent
+
+- name: Ensure clean anchors - recreate empty anchors/ directory
+  listen: Update CA bundle
+  ansible.builtin.file:
+    path: /etc/pki/ca-trust/source/anchors/
+    state: directory
+
+- name: "List all target IGTF target *.pem files"
+  listen: Update CA bundle
+  ansible.builtin.find:
+    paths: /etc/grid-security/certificates/
+    patterns: '*.pem'
+  register: target_pems
 
 - name: Copy IGTF CA's as anchors
   listen: Update CA bundle
-  ansible.builtin.shell:
-    cmd: "cp /etc/grid-security/certificates/*.pem /etc/pki/ca-trust/source/anchors"
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: /etc/pki/ca-trust/source/anchors/
+    remote_src: yes
+  loop: "{{ target_pems.files }}"
+  loop_control:
+    label: "{{ item.path }}"
 
-- name: Update CA bundle
+- name: Update bundle
   listen: Update CA bundle
   ansible.builtin.command:
     cmd: update-ca-trust
+
+- name: Clean IGTF CA anchors
+  listen: Reset CA bundle
+  ansible.builtin.command:
+    cmd: "rm -rf /etc/pki/ca-trust/source/anchors/*"
+
+- name: Revert back original CA bundle
+  listen: Reset CA bundle
+  ansible.builtin.command:
+    cmd: mv /etc/pki/tls/certs/ca-bundle.crt.igtfcerts-role.saved /etc/pki/tls/certs/ca-bundle.crt
+  ignore_errors: true
