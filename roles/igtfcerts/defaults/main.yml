@@ -9,3 +9,4 @@ target_cabundles:
   - /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
   - /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 clean: false
+update_cabundle: false

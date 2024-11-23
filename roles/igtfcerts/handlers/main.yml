@@ -5,23 +5,28 @@
   listen: Update CA bundle
   include_tasks: ./backup_bundle.yml
   loop: "{{ target_cabundles }}"
+  when: update_cabundle
 
 - name: Clean anchors/
   listen: Update CA bundle
   include_tasks: ./clean_anchors.yml
+  when: update_cabundle
 
 - name: Update CA bundle
   listen: Update CA bundle
   include_tasks: ./update_bundle.yml
+  when: update_cabundle
 
 
 # clean handlers
 - name: Clean anchors/
   listen: Reset CA bundle
   include_tasks: ./clean_anchors.yml
+  when: update_cabundle
 
 - name: Revert CA bundle
   listen: Reset CA bundle
   include_tasks: ./revert_bundle.yml
   loop: "{{ target_cabundles }}"
+  when: update_cabundle
 
