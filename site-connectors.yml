@@ -4,7 +4,7 @@
   become: true
   roles:
     - role: chezmoi-dotfiles
-    - { role: igtfcerts, update_cabundle: true }
+    - { role: igtfcerts, igtfcerts_update_cabundle: true }
     - role: poetry-tool
     - { role: python-venv, venv_directory: /opt/argo-connectors }
 

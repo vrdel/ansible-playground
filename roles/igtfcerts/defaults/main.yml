@@ -9,5 +9,5 @@ igtfcerts_backup_appendix: ".saved-igtfcerts-role"
 igtfcerts_target_cabundles:
   - /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
   - /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
-clean: false
+igtfcerts_clean: false
 igtfcerts_update_cabundle: false
