@@ -1,2 +1,7 @@
 ---
-  example_var: 'foobar2'
+
+example_var: ['foobar2']
+
+example_list:
+  - {"name": "foo", "surname": "bar"}
+  - {"name": "foo1", "surname": "bar1"}

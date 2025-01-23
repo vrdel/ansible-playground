@@ -9,3 +9,12 @@
           - apache2
           - vifm
         state: latest
+
+    - name: set var
+      ansible.builtin.set_fact:
+        example_var:
+          - "{{ lookup('ansible.builtin.vars', 'example_list') }}"
+
+    - name: var
+      ansible.builtin.debug:
+        var: example_list
