@@ -32,96 +32,96 @@ services:
       vrdel-ansible-play:
         ipv4_address: 172.21.0.12
 
-  rocky1:
-    env_file:
-      - compose.env
-    image: ${IMAGES1}
-    command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
-    entrypoint: /sbin/init
-    container_name: rocky1
-    hostname: rocky1
-    cgroup: host
-    tty: true
-    tmpfs:
-      - /run
-      - /tmp
-    stdin_open: true
-    user: root
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup
-      - $HOME:/mnt
-      - $HOME/.docker_zsh_history:/home/user/.zsh_history
-      - /dev/log:/dev/log
-      - /etc/localtime:/etc/localtime:ro
-      - type: bind
-        source: ${SSH_AUTH_SOCK}
-        target: ${SSH_AUTH_SOCK}
-    environment:
-      - SSH_AUTH_SOCK
-    networks:
-      vrdel-ansible-play:
-        ipv4_address: 172.21.0.13
+  #rocky1:
+    #env_file:
+      #- compose.env
+    #image: ${IMAGES1}
+    #command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
+    #entrypoint: /sbin/init
+    #container_name: rocky1
+    #hostname: rocky1
+    #cgroup: host
+    #tty: true
+    #tmpfs:
+      #- /run
+      #- /tmp
+    #stdin_open: true
+    #user: root
+    #volumes:
+      #- /sys/fs/cgroup:/sys/fs/cgroup
+      #- $HOME:/mnt
+      #- $HOME/.docker_zsh_history:/home/user/.zsh_history
+      #- /dev/log:/dev/log
+      #- /etc/localtime:/etc/localtime:ro
+      #- type: bind
+        #source: ${SSH_AUTH_SOCK}
+        #target: ${SSH_AUTH_SOCK}
+    #environment:
+      #- SSH_AUTH_SOCK
+    #networks:
+      #vrdel-ansible-play:
+        #ipv4_address: 172.21.0.13
 
-  debian1:
-    env_file:
-      - compose.env
-    image: ${IMAGES2}
-    command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
-    entrypoint: /sbin/init
-    container_name: debian1
-    privileged: true
-    hostname: debian1
-    cgroup: host
-    tty: true
-    tmpfs:
-      - /run
-      - /tmp
-    stdin_open: true
-    user: root
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup
-      - $HOME:/mnt
-      - $HOME/.docker_zsh_history:/home/user/.zsh_history
-      - /dev/log:/dev/log
-      - /etc/localtime:/etc/localtime:ro
-      - type: bind
-        source: ${SSH_AUTH_SOCK}
-        target: ${SSH_AUTH_SOCK}
-    environment:
-      - SSH_AUTH_SOCK
-    networks:
-      vrdel-ansible-play:
-        ipv4_address: 172.21.0.14
+  #debian1:
+    #env_file:
+      #- compose.env
+    #image: ${IMAGES2}
+    #command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
+    #entrypoint: /sbin/init
+    #container_name: debian1
+    #privileged: true
+    #hostname: debian1
+    #cgroup: host
+    #tty: true
+    #tmpfs:
+      #- /run
+      #- /tmp
+    #stdin_open: true
+    #user: root
+    #volumes:
+      #- /sys/fs/cgroup:/sys/fs/cgroup
+      #- $HOME:/mnt
+      #- $HOME/.docker_zsh_history:/home/user/.zsh_history
+      #- /dev/log:/dev/log
+      #- /etc/localtime:/etc/localtime:ro
+      #- type: bind
+        #source: ${SSH_AUTH_SOCK}
+        #target: ${SSH_AUTH_SOCK}
+    #environment:
+      #- SSH_AUTH_SOCK
+    #networks:
+      #vrdel-ansible-play:
+        #ipv4_address: 172.21.0.14
 
-  connectors:
-    env_file:
-      - compose.env
-    image: ${IMAGES3}
-    command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
-    entrypoint: /sbin/init
-    container_name: connectors
-    hostname: connectors
-    cgroup: host
-    tty: true
-    tmpfs:
-      - /run
-      - /tmp
-    stdin_open: true
-    user: root
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup
-      - $HOME:/mnt
-      - $HOME/.docker_zsh_history:/home/user/.zsh_history
-      - /dev/log:/dev/log
-      - /etc/localtime:/etc/localtime:ro
-      - type: bind
-        source: ${SSH_AUTH_SOCK}
-        target: ${SSH_AUTH_SOCK}
-    environment:
-      - SSH_AUTH_SOCK
-    networks:
-      vrdel-ansible-play:
-        ipv4_address: 172.21.0.15
+  #connectors:
+    #env_file:
+      #- compose.env
+    #image: ${IMAGES3}
+    #command: sudo /usr/bin/supervisord -nc /etc/supervisord.conf
+    #entrypoint: /sbin/init
+    #container_name: connectors
+    #hostname: connectors
+    #cgroup: host
+    #tty: true
+    #tmpfs:
+      #- /run
+      #- /tmp
+    #stdin_open: true
+    #user: root
+    #volumes:
+      #- /sys/fs/cgroup:/sys/fs/cgroup
+      #- $HOME:/mnt
+      #- $HOME/.docker_zsh_history:/home/user/.zsh_history
+      #- /dev/log:/dev/log
+      #- /etc/localtime:/etc/localtime:ro
+      #- type: bind
+        #source: ${SSH_AUTH_SOCK}
+        #target: ${SSH_AUTH_SOCK}
+    #environment:
+      #- SSH_AUTH_SOCK
+    #networks:
+      #vrdel-ansible-play:
+        #ipv4_address: 172.21.0.15
 
   #poem:
     #env_file:
