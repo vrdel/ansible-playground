@@ -1,0 +1,6 @@
+---
+
+new_example_list: |
+  {{
+    example_list | map('combine', item if item.name != 'foo' else item | combine({'shell': '/bin/zsh'}))
+  }}
